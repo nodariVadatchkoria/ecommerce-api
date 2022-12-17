@@ -5,13 +5,15 @@ import {
   Post,
   UseGuards,
   Request,
+  Delete,
+  Param,
 } from '@nestjs/common';
 import { CartService } from './cart.service';
 import { JwtAuthGuard } from '../auth/jwt-auth.guard';
 import { CartEntity } from './cart.entity';
-import { ApiBearerAuth, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CartDto } from "./dtos/cart.dto";
-import { CartCreateDto } from "./dtos/cart-create.dto";
+import { ApiBearerAuth, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { CartDto } from './dtos/cart.dto';
+import { CartCreateDto } from './dtos/cart-create.dto';
 
 @ApiTags('cart')
 @Controller('cart')
@@ -34,11 +36,21 @@ export class CartController {
   @ApiResponse({
     status: 200,
     type: CartDto,
-    isArray: true
+    isArray: true,
   })
   @Get()
   @ApiBearerAuth()
   async getItemsInCart(@Request() req): Promise<CartEntity[]> {
     return await this.cartService.getItemsInCard(req.user.username);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Delete(':id')
+  @ApiBearerAuth()
+  async deleteItemFromCart(
+    @Param('id') id: number,
+    @Request() req,
+  ): Promise<void> {
+    return await this.cartService.deleteItemFromCart(id, req.user.email);
   }
 }

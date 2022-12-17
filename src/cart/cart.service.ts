@@ -86,4 +86,18 @@ export class CartService {
       await this.cartRepository.remove(cartItems);
     }
   }
+
+  async deleteItemFromCart(id: number, email) {
+    const cartItems = await this.cartRepository.find({
+      where: {
+        user: {
+          email,
+        },
+      },
+    });
+    const item = cartItems.filter((item) => item.id === id);
+    if (item.length > 0) {
+      await this.cartRepository.remove(item);
+    }
+  }
 }
