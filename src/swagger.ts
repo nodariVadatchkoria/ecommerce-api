@@ -7,7 +7,7 @@ import { INestApplication } from '@nestjs/common';
 
 export function setupSwagger(app: INestApplication) {
   const options = new DocumentBuilder()
-    .setTitle('DentalApp API')
+    .setTitle('Ecommerce API')
     .setVersion('0.0.1')
     .addBearerAuth()
     .build();
@@ -17,7 +17,7 @@ export function setupSwagger(app: INestApplication) {
       persistAuthorization: true,
       docExpansion: 'none',
     },
-    customSiteTitle: 'DentalApp API Docs',
+    customSiteTitle: 'Ecommerce API Docs',
   };
   SwaggerModule.setup('docs', app, document, customOptions);
 }
