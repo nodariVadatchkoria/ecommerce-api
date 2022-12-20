@@ -50,7 +50,7 @@ export class CartController {
   async deleteItemFromCart(
     @Param('id') id: number,
     @Request() req,
-  ): Promise<void> {
+  ): Promise<any> {
     return await this.cartService.deleteItemFromCart(id, req.user.email);
   }
 }

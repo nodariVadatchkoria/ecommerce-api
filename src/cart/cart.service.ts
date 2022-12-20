@@ -97,7 +97,9 @@ export class CartService {
     });
     const item = cartItems.filter((item) => item.id === id);
     if (item.length > 0) {
-      await this.cartRepository.remove(item);
+      return await this.cartRepository.remove(item);
     }
+
+    return null;
   }
 }

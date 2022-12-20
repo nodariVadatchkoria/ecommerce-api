@@ -18,10 +18,13 @@ export class ProductService {
   async getAll(dto: ProductFilterDto): Promise<ProductDto[]> {
     let category = {};
     let search = {};
-    if (dto.categoryId) {
+
+    console.log(dto)
+    // @ts-ignore
+    if (dto.categoryId && dto.categoryId != 'undefined' && dto.categoryId != 'null') {
       category = { category: { id: dto.categoryId } };
     }
-    if (dto.search) {
+    if (dto.search && dto.search != 'undefined' && dto.search != 'null') {
       search = {
         name: ILike(`%${dto.search}%`),
       };
@@ -72,6 +75,7 @@ export class ProductService {
     dto: ProductCreateDto,
     user: Users,
   ): Promise<UpdateResult> {
+    console.log(user)
     if (user.role == 'admin') {
       const product = await this.productRepository.findOne({ where: { id } });
 

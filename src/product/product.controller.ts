@@ -46,6 +46,7 @@ export class ProductController {
     @Request() req,
     @Body() product: ProductCreateDto,
   ): Promise<ProductDto> {
+    console.log(req)
     return await this.productsService.create(product, req.user);
   }
 
