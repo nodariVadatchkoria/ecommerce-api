@@ -8,5 +8,8 @@ export class ProductFilterDto {
   search: string;
 
   @ApiPropertyOptional()
+  similar: string;
+
+  @ApiPropertyOptional()
   limit: number;
 }

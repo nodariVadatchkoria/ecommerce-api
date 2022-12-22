@@ -1,5 +1,5 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
-import { DeleteResult, ILike, Repository, UpdateResult } from 'typeorm';
+import { DeleteResult, ILike, In, Not, Repository, UpdateResult } from "typeorm";
 import { Users } from '../auth/user.entity';
 import { ProductEntity } from './product.entity';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -18,11 +18,16 @@ export class ProductService {
   async getAll(dto: ProductFilterDto): Promise<ProductDto[]> {
     let category = {};
     let search = {};
-
+    let similar = {};
     console.log(dto)
     // @ts-ignore
     if (dto.categoryId && dto.categoryId != 'undefined' && dto.categoryId != 'null') {
       category = { category: { id: dto.categoryId } };
+
+    }
+
+    if (dto.similar) {
+      similar = { id: Not(dto.similar) };
     }
     if (dto.search && dto.search != 'undefined' && dto.search != 'null') {
       search = {
@@ -38,6 +43,7 @@ export class ProductService {
       where: {
         ...category,
         ...search,
+        ...similar
       },
       relations: ['category'],
       ...take,
