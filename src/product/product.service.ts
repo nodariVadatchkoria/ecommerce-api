@@ -105,7 +105,7 @@ export class ProductService {
 
   async delete(id: string, user: Users): Promise<DeleteResult> {
     if (user.role == 'admin') {
-      return await this.productRepository.delete(id);
+      return await this.productRepository.softDelete(id);
     }
     throw new UnauthorizedException();
   }
